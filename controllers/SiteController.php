@@ -2,7 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\Post;
+use app\models\User;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -49,7 +52,22 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $dataProvider = new ActiveDataProvider([
+            'query' => Post::find(),
+            'sort' => [
+                'defaultOrder' => [
+                    'title' => SORT_ASC,
+                    'created_at' => SORT_DESC
+                ]
+            ],
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     public function actionLogin()

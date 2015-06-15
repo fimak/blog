@@ -103,4 +103,19 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->password === md5($password);
     }
+
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public static function getList()
+    {
+        $users = self::find()->all();
+        $result = [];
+        foreach ($users as $user) {
+            $result['id'] = $user->fullName;
+        }
+        return $result;
+    }
 }

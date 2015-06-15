@@ -12,6 +12,9 @@ use app\models\Post;
  */
 class PostSearch extends Post
 {
+    public $author;
+    public $category;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +22,8 @@ class PostSearch extends Post
     {
         return [
             [['id', 'user_id', 'category_id'], 'integer'],
-            [['title', 'text', 'image', 'created_at', 'updated_at'], 'safe'],
+            [['author', 'category'], 'string'],
+            [['title', 'author', 'category', 'text', 'image', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -43,9 +47,21 @@ class PostSearch extends Post
     {
         $query = Post::find();
 
+        $query->joinWith('author')
+            ->joinWith('category');
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['author'] = [
+            'asc' => ['user.first_name' => SORT_ASC],
+            'desc' => ['user.first_name' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['category'] = [
+            'asc' => ['category.name' => SORT_ASC],
+            'desc' => ['category.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -65,7 +81,10 @@ class PostSearch extends Post
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'image', $this->image]);
+            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'author.first_name', $this->author])
+            ->orFilterWhere(['like', 'author.last_name', $this->author])
+            ->andFilterWhere(['like', 'category.name', $this->category]);
 
         return $dataProvider;
     }

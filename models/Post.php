@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "post".
@@ -16,7 +17,8 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property User $user
+ * @property User $author
+ * @property Category $category
  * @property PostComment[] $postComments
  * @property PostTag[] $postTags
  */
@@ -64,9 +66,17 @@ class Post extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getAuthor()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -83,5 +93,10 @@ class Post extends \yii\db\ActiveRecord
     public function getPostTags()
     {
         return $this->hasMany(PostTag::className(), ['post_id' => 'id']);
+    }
+
+    public function getImageUrl()
+    {
+        return Url::to('@web/upload/' . $this->image, true);
     }
 }
