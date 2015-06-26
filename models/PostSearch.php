@@ -23,7 +23,8 @@ class PostSearch extends Post
         return [
             [['id', 'user_id', 'category_id'], 'integer'],
             [['author', 'category'], 'string'],
-            [['title', 'author', 'category', 'text', 'image', 'created_at', 'updated_at'], 'safe'],
+            [['status'], 'boolean'],
+            [['title', 'author', 'category', 'text', 'image', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -75,6 +76,7 @@ class PostSearch extends Post
             'id' => $this->id,
             'user_id' => $this->user_id,
             'category_id' => $this->category_id,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

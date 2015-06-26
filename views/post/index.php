@@ -23,12 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+//            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'title',
+            [
+                'attribute' => 'image',
+                'format' => 'html',
+                'value' => function ($data) {
+                    return Html::img($data->imageurl, ['class' => 'preview']);
+                },
+            ],
             'text:ntext',
-            'image',
             [
                 'attribute' => 'author',
                 'value' => 'author.fullName',
@@ -36,6 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'category',
                 'value' => 'category.name',
+            ],
+            [
+                'attribute' => 'status',
+                'value' => function ($data) {
+                    return $data ? 'Active' : 'Inactive';
+                }
             ],
             'created_at',
             // 'updated_at',

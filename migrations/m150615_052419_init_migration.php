@@ -22,6 +22,7 @@ class m150615_052419_init_migration extends Migration
         $this->createTable('category', [
             'id'            => 'pk',
             'name'          => 'text not null',
+            'status'        => 'bool not null default 1',
             'parent_id'     => 'int not null default 0'
         ]);
 
@@ -32,6 +33,7 @@ class m150615_052419_init_migration extends Migration
             'image'         => 'string not null',
             'user_id'       => 'int not null',
             'category_id'   => 'int not null',
+            'status'        => 'bool not null default 1',
             'created_at'    => 'datetime not null default current_timestamp',
             'updated_at'    => 'datetime not null default current_timestamp',
         ]);

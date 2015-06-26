@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property string $name
+ * @property boolean $status
  * @property integer $parent_id
  */
 class Category extends \yii\db\ActiveRecord
@@ -30,7 +31,8 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string'],
-            [['parent_id'], 'integer']
+            [['parent_id'], 'integer'],
+            [['status'], 'boolean']
         ];
     }
 
@@ -43,6 +45,7 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'parent_id' => 'Parent ID',
+            'status' => 'Status'
         ];
     }
 

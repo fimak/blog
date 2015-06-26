@@ -14,6 +14,7 @@ use yii\helpers\Url;
  * @property string $image
  * @property integer $user_id
  * @property integer $category_id
+ * @property boolean $status
  * @property string $created_at
  * @property string $updated_at
  *
@@ -41,6 +42,7 @@ class Post extends \yii\db\ActiveRecord
             [['title', 'text', 'image', 'user_id', 'category_id'], 'required'],
             [['text'], 'string'],
             [['user_id', 'category_id'], 'integer'],
+            [['status'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['title', 'image'], 'string', 'max' => 255]
         ];
@@ -57,6 +59,7 @@ class Post extends \yii\db\ActiveRecord
             'text' => 'Text',
             'image' => 'Image',
             'user_id' => 'User ID',
+            'status' => 'Status',
             'category_id' => 'Category ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
