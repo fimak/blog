@@ -50,10 +50,10 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($categoryId=null)
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Post::find(),
+            'query' => isset($categoryId) ? Post::find()->where(['category_id' => $categoryId]) : Post::find(),
             'sort' => [
                 'defaultOrder' => [
                     'title' => SORT_ASC,
@@ -65,9 +65,16 @@ class SiteController extends Controller
             ],
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('_posts', [
+                'dataProvider' => $dataProvider
+            ]);
+        } else {
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+                'categoryId' => $categoryId
+            ]);
+        }
     }
 
     public function actionLogin()

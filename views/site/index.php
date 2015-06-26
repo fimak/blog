@@ -13,13 +13,20 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content">
-
         <div class="row">
-            <?= \yii\widgets\ListView::widget([
-                'dataProvider' => $dataProvider,
-                'itemView' => '_post',
-            ]);?>
+            <div class="col-md-2 col-md-offset-5" style="text-align: center;">
+                <div class="row">
+                    <label for="categoryList">Category</label>
+                </div>
+                <div class="row">
+                    <?= \yii\helpers\Html::dropDownList('categoryList', $categoryId, \app\models\Category::getList(), ['class' => 'form-control'])?>
+                </div>
+            </div>
         </div>
-
+        <div class="row posts">
+            <?= $this->render('_posts', [
+                'dataProvider' => $dataProvider
+            ])?>
+        </div>
     </div>
 </div>
